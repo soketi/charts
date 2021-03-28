@@ -1,0 +1,157 @@
+# Default values for echo-server.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+# Echo Server is the server that will act like a Pusher REST API-compatible,
+# Socket.IO WS compatible server that will accept the WS connections.
+app:
+  image:
+    repository: soketi/echo-server
+    pullPolicy: IfNotPresent
+    tag: "4.2.0-14.16.0-alpine"
+
+  # It's recommended to run the server with
+  # maximum memory that would match the resource limits
+  # for maximum memory space efficiency.
+  command:
+    - node
+    - --max-old-space-size=256
+    - --max_old_space_size=256
+    - --optimize_for_size
+    - --optimize-for-size
+    - /app/bin/server.js
+    - start
+
+  # Add extra env to the Echo Server container.
+  extraEnv: []
+  #  - name: PROMETHEUS_ENABLED
+  #    value: "1"
+  #  - name: STATS_DRIVER
+  #    value: "prometheus"
+
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  resources:
+    limits:
+      cpu: 250m
+      memory: 256Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+# The Network Watcher is watching for container maximum allocated
+# resources and once a specific threshold is exceeded, it will tell the
+# Echo Server to stop accepting new connections by marking the Pod
+# as not ready. The existing connections will still be persisted.
+networkWatcher:
+  enabled: false
+
+  image:
+    repository: soketi/network-watcher
+    pullPolicy: IfNotPresent
+    tag: "1.0.3"
+
+  resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 64Mi
+
+  # The above threshold (in percent) after the pod becomes
+  # unavailable to serve new connections. 85% is a good threshold,
+  # because the still-opened connections will add some new members in
+  # the presence channels if they join or leave new ones.
+  threshold: 85
+
+  # Specify a Probes Token secret name that already exists.
+  # If not provided, it will create a secret with the
+  # `PROBES_TOKEN` key which will contain the token used
+  # to tell the Echo Server API to refuse new connections
+  # once the memory percent threshold was reached.
+  probesTokenSecretName: ""
+
+  # If not specified, a random 16 string will be generated instead.
+  # Specifying "probesTokenSecretName" will null this setting.
+  probesToken: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 6001
+
+ingress:
+  enabled: false
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: echo-example.local
+      paths: []
+
+    # - host: echo.test
+    #   paths:
+    #     - /
+  tls: []
+  #  - secretName: echo-example-tls
+  #    hosts:
+  #      - echo-example.local
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+  scaleDownCooldown: 1800
+  scaleUpCooldown: 10
+
+pdb:
+  enabled: false
+  minAvailable: 1
+  # maxUnavailable: 25%
+
+# In some cases, closing a Pod that has a lot of connections
+# will disconnect them, and stats would need some time to catch up with the disconnections,
+# so a bigger termination grace period would be suitable.
+terminationGracePeriodSeconds: 30
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

@@ -1,0 +1,137 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "echo-server.fullname" . }}
+  labels:
+    {{- include "echo-server.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "echo-server.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "echo-server.selectorLabels" . | nindent 8 }}
+    spec:
+      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "echo-server.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        {{- if .Values.networkWatcher.enabled }}
+        - name: network-watcher
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.networkWatcher.image.repository }}:{{ .Values.networkWatcher.image.tag }}"
+          imagePullPolicy: {{ .Values.networkWatcher.image.pullPolicy }}
+          env:
+            - name: KUBE_CONNECTION
+              value: cluster
+            - name: ECHO_APP_PORT
+              value: "{{ .Values.service.port }}"
+            - name: MEMORY_PERCENT
+              value: "{{ .Values.networkWatcher.threshold }}"
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            {{- if .Values.networkWatcher.enabled }}
+            - name: PROBES_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{- if .Values.networkWatcher.probesTokenSecretName }} {{ .Values.networkWatcher.probesTokenSecretName }} {{- else }} {{ include "echo-server.fullname" . }}-probes-token {{- end }}
+                  key: PROBES_TOKEN
+            {{- end }}
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+            requests:
+              cpu: 100m
+              memory: 64Mi
+        {{- end }}
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.app.image.repository }}:{{ .Values.app.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.app.image.pullPolicy }}
+          ports:
+            - name: echo
+              containerPort: 6001
+              protocol: TCP
+          {{- with .Values.app.command }}
+          command:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          env:
+            - name: POD_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: NODE_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+            {{- if .Values.networkWatcher.enabled }}
+            - name: NETWORK_PROBES_API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{- if .Values.networkWatcher.probesTokenSecretName }} {{ .Values.networkWatcher.probesTokenSecretName }} {{- else }} {{ include "echo-server.fullname" . }}-probes-token {{- end }}
+                  key: PROBES_TOKEN
+            - name: NETWORK_PROBES_API_ENABLED
+              value: "1"
+            {{- end }}
+            {{- with .Values.app.extraEnv }}
+              {{- toYaml . | nindent 14 }}
+            {{- end }}
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 6001
+              httpHeaders:
+              - name: X-Kube-Healthcheck
+                value: "Yes"
+            initialDelaySeconds: 5
+            periodSeconds: 1
+            failureThreshold: 1
+            successThreshold: 1
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 6001
+              httpHeaders:
+              - name: X-Kube-Healthcheck
+                value: "Yes"
+            initialDelaySeconds: 5
+            periodSeconds: 1
+            failureThreshold: 1
+            successThreshold: 1
+          resources:
+            {{- toYaml .Values.app.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
