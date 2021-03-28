@@ -57,7 +57,7 @@ networkWatcher:
   image:
     repository: soketi/network-watcher
     pullPolicy: IfNotPresent
-    tag: "1.0.3"
+    tag: "1.0.4"
 
   resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
