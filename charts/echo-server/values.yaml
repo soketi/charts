@@ -35,6 +35,11 @@ app:
   #  - name: STATS_DRIVER
   #    value: "prometheus"
 
+  # Extra volumes to mount on the container.
+  extraVolumeMounts: []
+  # - name: some-folder
+  #   mountPath: /some/path
+
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
@@ -58,6 +63,11 @@ networkWatcher:
     repository: soketi/network-watcher
     pullPolicy: IfNotPresent
     tag: "1.0.4"
+
+  # Extra volumes to mount on the container.
+  extraVolumeMounts: []
+  # - name: some-folder
+  #   mountPath: /some/path
 
   resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -171,3 +181,14 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+# Extra volumes to attach to the deployment.
+extraVolumes: []
+# - name: some-folder
+#   emptyDir: {}
+
+# Extra containers to run in the deployment.
+extraContainers: []
+
+# Extra init containers to run in the deployment.
+extraInitContainers: []

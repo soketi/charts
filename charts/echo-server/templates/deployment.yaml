@@ -20,6 +20,11 @@ spec:
       labels:
         {{- include "echo-server.selectorLabels" . | nindent 8 }}
     spec:
+      {{- with .Values.extraVolumes }}
+      volumes:
+        {{- toYaml . | nindent 10 }}
+      {{- end }}
+
       terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
 
       {{- with .Values.imagePullSecrets }}
@@ -31,13 +36,26 @@ spec:
 
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+
+      {{- with .Values.extraInitContainers }}
+      initContainers:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+
       containers:
+        {{- with .Values.extraContainers }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
         {{- if .Values.networkWatcher.enabled }}
         - name: network-watcher
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.networkWatcher.image.repository }}:{{ .Values.networkWatcher.image.tag }}"
           imagePullPolicy: {{ .Values.networkWatcher.image.pullPolicy }}
+          {{- with .Values.networkWatcher.extraVolumeMounts }}
+          volumeMounts:
+            {{ toYaml . | nindent 12 }}
+          {{- end }}
           env:
             - name: KUBE_CONNECTION
               value: cluster
@@ -73,6 +91,10 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.app.image.repository }}:{{ .Values.app.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.app.image.pullPolicy }}
+          {{- with .Values.app.extraVolumeMounts }}
+          volumeMounts:
+            {{ toYaml . | nindent 12 }}
+          {{- end }}
           ports:
             - name: echo
               containerPort: 6001
