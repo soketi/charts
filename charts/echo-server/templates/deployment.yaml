@@ -75,7 +75,7 @@ spec:
             - name: PROBES_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{- if .Values.networkWatcher.probesTokenSecretName }} {{ .Values.networkWatcher.probesTokenSecretName }} {{- else }} {{ include "echo-server.fullname" . }}-probes-token {{- end }}
+                  name: {{ if .Values.networkWatcher.probesTokenSecretName }} {{ .Values.networkWatcher.probesTokenSecretName }} {{ else }} {{ include "echo-server.fullname" . }}-probes-token {{ end }}
                   key: PROBES_TOKEN
             {{- end }}
           resources:
@@ -116,7 +116,7 @@ spec:
             - name: NETWORK_PROBES_API_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{- if .Values.networkWatcher.probesTokenSecretName }} {{ .Values.networkWatcher.probesTokenSecretName }} {{- else }} {{ include "echo-server.fullname" . }}-probes-token {{- end }}
+                  name: {{ if .Values.networkWatcher.probesTokenSecretName }} {{ .Values.networkWatcher.probesTokenSecretName }} {{ else }} {{ include "echo-server.fullname" . }}-probes-token {{ end }}
                   key: PROBES_TOKEN
             - name: NETWORK_PROBES_API_ENABLED
               value: "1"
