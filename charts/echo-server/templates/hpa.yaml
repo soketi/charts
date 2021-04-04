@@ -12,11 +12,10 @@ spec:
     name: {{ include "echo-server.fullname" . }}
   minReplicas: {{ .Values.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
+  {{-  with .Values.autoscaling.behavior }}
   behavior:
-    scaleDown:
-      stabilizationWindowSeconds: {{ .Values.autoscaling.scaleDownCooldown }}
-    scaleUp:
-      stabilizationWindowSeconds: {{ .Values.autoscaling.scaleUpCooldown }}
+    {{ . toYaml | nindent 4 }}
+  {{- end }}
   metrics:
     {{- if .Values.autoscaling.targetCPUUtilizationPercentage }}
     - type: Resource
@@ -33,5 +32,8 @@ spec:
         target:
           type: Utilization
           averageUtilization: {{ .Values.autoscaling.targetMemoryUtilizationPercentage }}
+    {{- end }}
+    {{- with .Values.autoscaling.customMetrics }}
+    {{ toYaml . | nindent 4 }}
     {{- end }}
 {{- end }}

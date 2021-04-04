@@ -137,8 +137,24 @@ autoscaling:
   maxReplicas: 100
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
-  scaleDownCooldown: 1800
-  scaleUpCooldown: 10
+
+  # Set the behavior for the autoscaler.
+  # https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/#support-for-configurable-scaling-behavior
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 1800
+    scaleUp:
+      stabilizationWindowSeconds: 10
+
+  # Custom Metrics will be appended to the default CPU/Memory resources (if they're enabled).
+  customMetrics: []
+  # - type: Pods
+  #   pods:
+  #     metric:
+  #       name: phpfpm_process_utilization
+  #     target:
+  #       type: AverageValue
+  #       averageValue: "50"
 
 pdb:
   enabled: false
