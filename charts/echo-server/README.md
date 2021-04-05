@@ -20,13 +20,13 @@ $ helm repo add soketi https://helm.soketi.app
 $ helm repo update
 ```
 
-Install Laravel chart:
+Install Echo Server chart:
 
 ```bash
-$ helm upgrade laravel-app \
-    -f values.yaml \
+$ helm upgrade soketi \
     --install \
-    renoki-co/laravel
+    --version=0.2.1 \
+    soketi/echo-server
 ```
 
 Check `values.yaml` for additional available customizations.

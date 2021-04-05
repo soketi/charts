@@ -161,7 +161,7 @@ autoscaling:
   # - type: Pods
   #   pods:
   #     metric:
-  #       name: phpfpm_process_utilization
+  #       name: nginx_process_utilization
   #     target:
   #       type: AverageValue
   #       averageValue: "50"
