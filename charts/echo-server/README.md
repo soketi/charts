@@ -20,12 +20,12 @@ $ helm repo add soketi https://helm.soketi.app
 $ helm repo update
 ```
 
-Install Echo Server chart:
+Install the Echo Server chart:
 
 ```bash
 $ helm upgrade soketi \
     --install \
-    --version=0.2.1 \
+    --version=0.2.0 \
     soketi/echo-server
 ```
 
