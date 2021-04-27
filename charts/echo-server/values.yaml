@@ -124,6 +124,9 @@ service:
   type: ClusterIP
   port: 6001
 
+  annotations: {}
+  # Set annotations for the service.
+
 ingress:
   enabled: false
   annotations: {}
