@@ -3,6 +3,16 @@ entries:
   echo-server:
   - apiVersion: v2
     appVersion: 4.5.0
+    created: "2021-04-27T17:31:23.089090008Z"
+    description: Run soketi/echo-server in Kubernetes using this helm chart.
+    digest: dc7f6e7739fbef706c274b07f1ced8cd727d357f81290255de0376e387ef70e1
+    name: echo-server
+    type: application
+    urls:
+    - https://github.com/soketi/charts/releases/download/echo-server-0.5.0/echo-server-0.5.0.tgz
+    version: 0.5.0
+  - apiVersion: v2
+    appVersion: 4.5.0
     created: "2021-04-26T08:37:00.85276385Z"
     description: Run soketi/echo-server in Kubernetes using this helm chart.
     digest: ed07b123d33a56a5da62a3422ee83d02964c1e455e10e6a5f9ac853465e60d73
@@ -51,4 +61,4 @@ entries:
     urls:
     - https://github.com/soketi/charts/releases/download/echo-server-0.1.0/echo-server-0.1.0.tgz
     version: 0.1.0
-generated: "2021-04-26T08:37:00.85278855Z"
+generated: "2021-04-27T17:31:23.089122108Z"
