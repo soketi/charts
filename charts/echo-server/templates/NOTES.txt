@@ -22,8 +22,7 @@
 {{- end }}
 
 {{- if .Values.networkWatcher.enabled }}
-2. Network watcher is enabled. To get the token, run the following command:
-kubectl --namespace {{ .Release.Namespace }} get secret {{ if .Values.networkWatcher.probesTokenSecretName }} {{ .Values.networkWatcher.probesTokenSecretName }} {{ else }} {{ include "echo-server.fullname" . }}-probes-token {{ end }} -o jsonpath="{.data.PROBES_TOKEN}" | base64 --decode; echo
+2. Network watcher is enabled.
 {{- else }}
 2. Network watcher is disabled.
 {{- end }}

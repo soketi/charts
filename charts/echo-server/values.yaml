@@ -14,7 +14,7 @@ app:
   image:
     repository: soketi/echo-server
     pullPolicy: IfNotPresent
-    tag: "4.5.0-14.16-alpine"
+    tag: "5.0.1-14-alpine"
 
   # It's recommended to run the server with
   # maximum memory that would match the resource limits
@@ -62,7 +62,7 @@ networkWatcher:
   image:
     repository: soketi/network-watcher
     pullPolicy: IfNotPresent
-    tag: "1.0.5"
+    tag: "2.0.1"
 
   # Extra volumes to mount on the container.
   extraVolumeMounts: []
@@ -86,17 +86,6 @@ networkWatcher:
   # because the still-opened connections will add some new members in
   # the presence channels if they join or leave new ones.
   threshold: 85
-
-  # Specify a Probes Token secret name that already exists.
-  # If not provided, it will create a secret with the
-  # `PROBES_TOKEN` key which will contain the token used
-  # to tell the Echo Server API to refuse new connections
-  # once the memory percent threshold was reached.
-  probesTokenSecretName: ""
-
-  # If not specified, a random 16 string will be generated instead.
-  # Specifying "probesTokenSecretName" will null this setting.
-  probesToken: ""
 
 serviceAccount:
   # Specifies whether a service account should be created

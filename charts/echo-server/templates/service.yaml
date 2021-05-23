@@ -17,3 +17,6 @@ spec:
       name: echo
   selector:
     {{- include "echo-server.selectorLabels" . | nindent 4 }}
+    {{- if .Values.networkWatcher.enabled }}
+    echo.soketi.app/accepts-new-connections: "yes"
+    {{- end }}

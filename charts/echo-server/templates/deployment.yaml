@@ -71,13 +71,6 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
-            {{- if .Values.networkWatcher.enabled }}
-            - name: PROBES_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: {{ if .Values.networkWatcher.probesTokenSecretName }} {{ .Values.networkWatcher.probesTokenSecretName }} {{ else }} {{ include "echo-server.fullname" . }}-probes-token {{ end }}
-                  key: PROBES_TOKEN
-            {{- end }}
           resources:
             {{- toYaml .Values.networkWatcher.resources | nindent 12 }}
         {{- end }}
@@ -107,15 +100,6 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: spec.nodeName
-            {{- if .Values.networkWatcher.enabled }}
-            - name: NETWORK_PROBES_API_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: {{ if .Values.networkWatcher.probesTokenSecretName }} {{ .Values.networkWatcher.probesTokenSecretName }} {{ else }} {{ include "echo-server.fullname" . }}-probes-token {{ end }}
-                  key: PROBES_TOKEN
-            - name: NETWORK_PROBES_API_ENABLED
-              value: "1"
-            {{- end }}
             {{- with .Values.app.extraEnv }}
               {{- toYaml . | nindent 14 }}
             {{- end }}
