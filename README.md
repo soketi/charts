@@ -23,7 +23,7 @@ $ helm repo update
 To install a specific chart:
 
 ```bash
-$ helm install some-release  soketi/<chart>
+$ helm install some-release soketi/<chart>
 ```
 
 ## Search for available repos
