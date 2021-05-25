@@ -54,7 +54,7 @@ spec:
           imagePullPolicy: {{ .Values.networkWatcher.image.pullPolicy }}
           {{- with .Values.networkWatcher.extraVolumeMounts }}
           volumeMounts:
-            {{ toYaml . | nindent 12 }}
+            {{- toYaml . | nindent 12 }}
           {{- end }}
           env:
             - name: KUBE_CONNECTION
@@ -81,7 +81,7 @@ spec:
           imagePullPolicy: {{ .Values.app.image.pullPolicy }}
           {{- with .Values.app.extraVolumeMounts }}
           volumeMounts:
-            {{ toYaml . | nindent 12 }}
+            {{- toYaml . | nindent 12 }}
           {{- end }}
           ports:
             - name: echo
