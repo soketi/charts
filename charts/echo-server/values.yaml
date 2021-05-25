@@ -30,6 +30,14 @@ app:
 
   # Add extra env to the Echo Server container.
   extraEnv: []
+  # - name: POD_ID
+  #   valueFrom:
+  #     fieldRef:
+  #       fieldPath: metadata.name
+  # - name: NODE_ID
+  #   valueFrom:
+  #     fieldRef:
+  #       fieldPath: spec.nodeName
   #  - name: PROMETHEUS_ENABLED
   #    value: "1"
   #  - name: STATS_DRIVER
