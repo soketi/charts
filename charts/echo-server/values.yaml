@@ -14,7 +14,7 @@ app:
   image:
     repository: soketi/echo-server
     pullPolicy: IfNotPresent
-    tag: "5.0.1-14-alpine"
+    tag: "5.2.0-14-alpine"
 
   # It's recommended to run the server with
   # maximum memory that would match the resource limits
