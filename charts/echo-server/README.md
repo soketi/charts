@@ -25,7 +25,7 @@ Install the Echo Server chart:
 ```bash
 $ helm upgrade echo-server \
     --install \
-    --version=1.1.0 \
+    --version=1.2.0 \
     soketi/echo-server
 ```
 
