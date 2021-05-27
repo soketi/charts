@@ -63,6 +63,8 @@ spec:
               value: "{{ .Values.service.port }}"
             - name: MEMORY_PERCENT
               value: "{{ .Values.networkWatcher.threshold }}"
+            - name: CHECKING_INTERVAL
+              value: "{{ .Values.networkWatcher.interval }}"
             - name: POD_NAMESPACE
               valueFrom:
                 fieldRef:

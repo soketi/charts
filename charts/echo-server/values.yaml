@@ -95,6 +95,11 @@ networkWatcher:
   # the presence channels if they join or leave new ones.
   threshold: 85
 
+  # The interval in seconds between checks. This will check the Prometheus
+  # metrics and will decide wether the threshold was reached and will prevent
+  # new connections from joining this pod.
+  interval: 1
+
 serviceAccount:
   # Specifies whether a service account should be created
   create: true
