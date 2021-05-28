@@ -14,7 +14,7 @@ app:
   image:
     repository: soketi/echo-server
     pullPolicy: IfNotPresent
-    tag: "5.2.0-14-alpine"
+    tag: "5.3.0-14-alpine"
 
   # It's recommended to run the server with
   # maximum memory that would match the resource limits
@@ -38,10 +38,6 @@ app:
   #   valueFrom:
   #     fieldRef:
   #       fieldPath: spec.nodeName
-  #  - name: PROMETHEUS_ENABLED
-  #    value: "1"
-  #  - name: STATS_DRIVER
-  #    value: "prometheus"
 
   # Extra volumes to mount on the container.
   extraVolumeMounts: []
@@ -70,7 +66,7 @@ networkWatcher:
   image:
     repository: soketi/network-watcher
     pullPolicy: IfNotPresent
-    tag: "2.1.0"
+    tag: "3.0.0"
 
   # Extra volumes to mount on the container.
   extraVolumeMounts: []
