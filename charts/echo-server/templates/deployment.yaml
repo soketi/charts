@@ -73,6 +73,28 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 6001
+              httpHeaders:
+              - name: X-Kube-Healthcheck
+                value: "Yes"
+            initialDelaySeconds: 5
+            periodSeconds: 1
+            failureThreshold: 1
+            successThreshold: 1
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 6001
+              httpHeaders:
+              - name: X-Kube-Healthcheck
+                value: "Yes"
+            initialDelaySeconds: 5
+            periodSeconds: 1
+            failureThreshold: 1
+            successThreshold: 1
           resources:
             {{- toYaml .Values.networkWatcher.resources | nindent 12 }}
         {{- end }}
