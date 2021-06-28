@@ -161,4 +161,15 @@ entries:
     urls:
     - https://github.com/soketi/charts/releases/download/echo-server-0.1.0/echo-server-0.1.0.tgz
     version: 0.1.0
-generated: "2021-06-02T18:27:22.651613098Z"
+  pws:
+  - apiVersion: v2
+    appVersion: 0.1.0
+    created: "2021-06-28T19:08:50.679065047Z"
+    description: Run soketi/pws in Kubernetes using this Helm chart.
+    digest: c9f9f5429a2e14706ca563b5917cb3b6b2c1f998a82a81a83bde9e18121c13a4
+    name: pws
+    type: application
+    urls:
+    - https://github.com/soketi/charts/releases/download/pws-0.1.0/pws-0.1.0.tgz
+    version: 0.1.0
+generated: "2021-06-28T19:08:50.679142447Z"
