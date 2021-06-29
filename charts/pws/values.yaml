@@ -65,7 +65,7 @@ networkWatcher:
   image:
     repository: soketi/network-watcher
     pullPolicy: IfNotPresent
-    tag: "4.0.0"
+    tag: "4.0.1"
 
   # Extra volumes to mount on the container.
   extraVolumeMounts: []
