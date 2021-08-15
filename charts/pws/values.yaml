@@ -13,7 +13,7 @@ app:
   image:
     repository: soketi/pws
     pullPolicy: IfNotPresent
-    tag: "0.1.1-14-alpine"
+    tag: "0.4.0-14-alpine"
 
   # It's recommended to run the server with
   # maximum memory that would match the resource limits
@@ -65,7 +65,7 @@ networkWatcher:
   image:
     repository: soketi/network-watcher
     pullPolicy: IfNotPresent
-    tag: "4.0.1"
+    tag: "4.1.0"
 
   # Extra volumes to mount on the container.
   extraVolumeMounts: []
