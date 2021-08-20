@@ -11,9 +11,9 @@ fullnameOverride: ""
 # pWS is the server that will act like the Pusher server.
 app:
   image:
-    repository: soketi/pws
+    repository: quay.io/soketi/pws
     pullPolicy: IfNotPresent
-    tag: "0.4.0-14-alpine"
+    tag: "0.5-14-alpine"
 
   # It's recommended to run the server with
   # maximum memory that would match the resource limits
@@ -63,9 +63,9 @@ networkWatcher:
   enabled: false
 
   image:
-    repository: soketi/network-watcher
+    repository: quay.io/soketi/network-watcher
     pullPolicy: IfNotPresent
-    tag: "4.1.0"
+    tag: "4.2"
 
   # Extra volumes to mount on the container.
   extraVolumeMounts: []
