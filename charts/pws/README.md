@@ -25,7 +25,7 @@ Install the pWS chart:
 ```bash
 $ helm upgrade pws \
     --install \
-    --version=0.3.0 \
+    --version=2.1.1 \
     soketi/pws
 ```
 
