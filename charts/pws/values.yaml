@@ -13,7 +13,7 @@ app:
   image:
     repository: quay.io/soketi/pws
     pullPolicy: IfNotPresent
-    tag: "0.5-14-alpine"
+    tag: "0.6-16-alpine"
 
   # It's recommended to run the server with
   # maximum memory that would match the resource limits
