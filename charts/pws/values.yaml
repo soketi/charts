@@ -119,7 +119,7 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  port: 6001
+  port: 6002
 
   annotations: {}
   # Set annotations for the service.
