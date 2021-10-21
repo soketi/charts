@@ -97,7 +97,7 @@ spec:
             - name: PORT
               value: "6001"
             {{- with .Values.app.extraEnv }}
-              {{- toYaml . | nindent 14 }}
+            {{- toYaml . | nindent 12 }}
             {{- end }}
           livenessProbe:
             httpGet:
