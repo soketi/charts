@@ -192,3 +192,29 @@ extraContainers: []
 
 # Extra init containers to run in the deployment.
 extraInitContainers: []
+
+serviceMonitor:
+  ## If true, a ServiceMonitor CRD is created for a prometheus operator
+  ## https://github.com/coreos/prometheus-operator
+  ##
+  enabled: false
+  #  namespace: monitoring
+  labels: {}
+  interval: 30s
+  scrapeTimeout: 10s
+  scrapePath: /metrics
+  scheme: http
+  relabelings: []
+  targetLabels: []
+  metricRelabelings: []
+  sampleLimit: 0
+
+prometheusRule:
+  ## If true, a PrometheusRule CRD is created for a prometheus operator
+  ## https://github.com/coreos/prometheus-operator
+  ##
+  ## The rules will be processed as Helm template, allowing to set variables in them.
+  enabled: false
+  #  namespace: monitoring
+  labels: {}
+  rules: []
