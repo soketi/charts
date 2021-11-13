@@ -65,7 +65,7 @@ networkWatcher:
   image:
     repository: quay.io/soketi/network-watcher
     pullPolicy: IfNotPresent
-    tag: "4.6"
+    tag: "5.0"
 
   # Extra volumes to mount on the container.
   extraVolumeMounts: []
