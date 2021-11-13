@@ -1,4 +1,4 @@
-# Default values for pws.
+# Default values for soketi.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -8,12 +8,12 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
-# pWS is the server that will act like the Pusher server.
+# soketi is the server that will act like the Pusher server.
 app:
   image:
-    repository: quay.io/soketi/pws
+    repository: quay.io/soketi/soketi
     pullPolicy: IfNotPresent
-    tag: "0.8-16-alpine"
+    tag: "0.13-16-alpine"
 
   # It's recommended to run the server with
   # maximum memory that would match the resource limits
@@ -27,7 +27,7 @@ app:
     - /app/bin/server.js
     - start
 
-  # Add extra env to the pWS container.
+  # Add extra env to the soketi container.
   extraEnv: []
   # - name: POD_ID
   #   valueFrom:
@@ -57,7 +57,7 @@ app:
 
 # The Network Watcher is watching for container maximum allocated
 # resources and once a specific threshold is exceeded, it will tell the
-# pWS server to stop accepting new connections by marking the Pod
+# soketi server to stop accepting new connections by marking the Pod
 # as not ready. The existing connections will still be persisted.
 networkWatcher:
   enabled: false
@@ -130,16 +130,16 @@ ingress:
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:
-    - host: pws-example.local
+    - host: soketi-example.local
       paths: []
 
-    # - host: pws.test
+    # - host: soketi.test
     #   paths:
     #     - /
   tls: []
-  #  - secretName: pws-example-tls
+  #  - secretName: soketi-example-tls
   #    hosts:
-  #      - pws-example.local
+  #      - soketi-example.local
 
 autoscaling:
   enabled: false

@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "pws.fullname" . }}
+  name: {{ include "soketi.fullname" . }}
   labels:
-    {{- include "pws.labels" . | nindent 4 }}
+    {{- include "soketi.labels" . | nindent 4 }}
   annotations:
     {{- with .Values.service.annotations }}
     {{- toYaml . | nindent 4 }}
@@ -14,9 +14,9 @@ spec:
     - port: {{ .Values.service.port }}
       targetPort: 6001
       protocol: TCP
-      name: pws
+      name: soketi
   selector:
-    {{- include "pws.selectorLabels" . | nindent 4 }}
+    {{- include "soketi.selectorLabels" . | nindent 4 }}
     {{- if .Values.networkWatcher.enabled }}
-    pws.soketi.app/accepts-new-connections: "yes"
+    ws.soketi.app/accepts-new-connections: "yes"
     {{- end }}

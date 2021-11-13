@@ -1,7 +1,7 @@
-pWS Server Chart
-=================
+soketi Server Chart
+===================
 
-Containerize & Orchestrate your pWS  application with this simple Helm chart.
+Containerize & Orchestrate your soketi application with this simple Helm chart.
 
 ## 🤝 Supporting
 
@@ -20,13 +20,13 @@ $ helm repo add soketi https://helm.soketi.app
 $ helm repo update
 ```
 
-Install the pWS chart:
+Install the soketi chart:
 
 ```bash
-$ helm upgrade pws \
+$ helm upgrade soketi \
     --install \
-    --version=0.2.4 \
-    soketi/pws
+    --version=0.1.0 \
+    soketi/soketi
 ```
 
 Check `values.yaml` for additional available customizations.

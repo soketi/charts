@@ -3,12 +3,12 @@ apiVersion: policy/v1beta1
 kind: PodDisruptionBudget
 metadata:
   labels:
-    {{- include "pws.labels" . | nindent 4 }}
-  name: {{ include "pws.fullname" . }}
+    {{- include "soketi.labels" . | nindent 4 }}
+  name: {{ include "soketi.fullname" . }}
 spec:
   selector:
     matchLabels:
-      {{- include "pws.selectorLabels" . | nindent 6 }}
+      {{- include "soketi.selectorLabels" . | nindent 6 }}
   {{- if .Values.pdb.minAvailable }}
   minAvailable: {{ .Values.pdb.minAvailable }}
   {{- end }}

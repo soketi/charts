@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "pws.fullname" . }}
+  name: {{ include "soketi.fullname" . }}
   labels:
-    {{- include "pws.labels" . | nindent 4 }}
+    {{- include "soketi.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "pws.selectorLabels" . | nindent 6 }}
+      {{- include "soketi.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -18,7 +18,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "pws.selectorLabels" . | nindent 8 }}
+        {{- include "soketi.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.extraVolumes }}
       volumes:
@@ -32,7 +32,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
 
-      serviceAccountName: {{ include "pws.serviceAccountName" . }}
+      serviceAccountName: {{ include "soketi.serviceAccountName" . }}
 
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
@@ -86,7 +86,7 @@ spec:
             {{- toYaml . | nindent 12 }}
           {{- end }}
           ports:
-            - name: pws
+            - name: soketi
               containerPort: 6001
               protocol: TCP
           {{- with .Values.app.command }}
