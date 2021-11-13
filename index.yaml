@@ -81,4 +81,15 @@ entries:
     urls:
     - https://github.com/soketi/charts/releases/download/pws-0.1.0/pws-0.1.0.tgz
     version: 0.1.0
-generated: "2021-10-22T08:53:19.057697137Z"
+  soketi:
+  - apiVersion: v2
+    appVersion: 0.13.0
+    created: "2021-11-13T16:19:38.58716625Z"
+    description: Run soketi/soketi in your Kubernetes cluster using this Helm chart.
+    digest: b72d290751d97276fbd0c4ef8d56a9a7e728e731995437629d794a3d6dbcccf9
+    name: soketi
+    type: application
+    urls:
+    - https://github.com/soketi/charts/releases/download/soketi-0.1.0/soketi-0.1.0.tgz
+    version: 0.1.0
+generated: "2021-11-13T16:19:38.58719385Z"
