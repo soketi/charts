@@ -13,7 +13,7 @@ app:
   image:
     repository: quay.io/soketi/soketi
     pullPolicy: IfNotPresent
-    tag: "0.13-16-alpine"
+    tag: "0.17-16-alpine"
 
   # It's recommended to run the server with
   # maximum memory that would match the resource limits
@@ -65,7 +65,7 @@ networkWatcher:
   image:
     repository: quay.io/soketi/network-watcher
     pullPolicy: IfNotPresent
-    tag: "5.0"
+    tag: "6"
 
   # Extra volumes to mount on the container.
   extraVolumeMounts: []

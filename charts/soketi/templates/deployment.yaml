@@ -89,6 +89,9 @@ spec:
             - name: soketi
               containerPort: 6001
               protocol: TCP
+            - name: metrics
+              containerPort: 9601
+              protocol: TCP
           {{- with .Values.app.command }}
           command:
             {{- toYaml . | nindent 12 }}
