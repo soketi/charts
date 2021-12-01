@@ -7,6 +7,10 @@ Containerize & Orchestrate your soketi application with this simple Helm chart.
 
 **If you are using one or more Renoki Co. open-source packages in your production apps, in presentation demos, hobby projects, school projects or so, sponsor our work with [Github Sponsors](https://github.com/sponsors/rennokki). 📦**
 
+## 🛑 Requirements
+
+- Kubernetes v1.19+
+
 ## 🚀 Installation
 
 Install Helm chart repository:
@@ -21,7 +25,7 @@ Install the soketi chart:
 ```bash
 $ helm upgrade soketi \
     --install \
-    --version=0.2.0 \
+    --version=0.3.0 \
     soketi/soketi
 ```
 
