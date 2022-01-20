@@ -56,6 +56,10 @@ spec:
           volumeMounts:
             {{- toYaml . | nindent 12 }}
           {{- end }}
+          {{- with .Values.networkWatcher.command }}
+          command:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           env:
             - name: KUBE_CONNECTION
               value: cluster
@@ -111,11 +115,11 @@ spec:
                 value: "Yes"
             initialDelaySeconds: 5
             periodSeconds: 1
-            failureThreshold: 1
+            failureThreshold: 3
             successThreshold: 1
           readinessProbe:
             httpGet:
-              path: /
+              path: /ready
               port: 6001
               httpHeaders:
               - name: X-Kube-Healthcheck
