@@ -111,19 +111,19 @@ spec:
               path: /
               port: 6001
               httpHeaders:
-              - name: X-Kube-Healthcheck
-                value: "Yes"
+                - name: X-Kube-Healthcheck
+                  value: "Yes"
             initialDelaySeconds: 5
-            periodSeconds: 1
+            periodSeconds: 2
             failureThreshold: 3
             successThreshold: 1
           readinessProbe:
             httpGet:
-              path: /ready
+              path: /accept-traffic
               port: 6001
               httpHeaders:
-              - name: X-Kube-Healthcheck
-                value: "Yes"
+                - name: X-Kube-Healthcheck
+                  value: "Yes"
             initialDelaySeconds: 5
             periodSeconds: 1
             failureThreshold: 1
