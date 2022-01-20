@@ -84,6 +84,16 @@ entries:
   soketi:
   - apiVersion: v2
     appVersion: 0.27.0
+    created: "2022-01-20T00:09:57.3706548Z"
+    description: Run soketi/soketi in your Kubernetes cluster using this Helm chart.
+    digest: ad0cfa5d7dfab8f262cc09b95fdc3c113a4534c9b841772dd5212231d6b91d61
+    name: soketi
+    type: application
+    urls:
+    - https://github.com/soketi/charts/releases/download/soketi-0.7.0/soketi-0.7.0.tgz
+    version: 0.7.0
+  - apiVersion: v2
+    appVersion: 0.27.0
     created: "2022-01-17T00:29:09.410445898Z"
     description: Run soketi/soketi in your Kubernetes cluster using this Helm chart.
     digest: e494431f855807e8fec718431902048da2cae51f6b673f6d56ab31768b64388e
@@ -152,4 +162,4 @@ entries:
     urls:
     - https://github.com/soketi/charts/releases/download/soketi-0.1.0/soketi-0.1.0.tgz
     version: 0.1.0
-generated: "2022-01-17T00:29:09.410481823Z"
+generated: "2022-01-20T00:09:57.370923811Z"
