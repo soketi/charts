@@ -13,10 +13,10 @@ app:
   image:
     repository: quay.io/soketi/soketi
     pullPolicy: IfNotPresent
-    tag: "0.28-16-alpine"
+    tag: "0.29-16-alpine"
     # You can use distroless to avoid Remote Code Execution attacks in-cluster.
     # https://github.com/soketi/soketi/pull/178
-    # tag: "0.28-16-distroless"
+    # tag: "0.29-16-distroless"
 
   # It's recommended to run the server with
   # maximum memory that would match the resource limits
@@ -57,6 +57,10 @@ app:
   # requests:
   #   cpu: 100m
   #   memory: 128Mi
+
+  # The mode the app is running with. (full, worker, server)
+  # Read the documentation: https://docs.soketi.app/advanced-usage/horizontal-scaling/running-modes
+  mode: full
 
 # The Network Watcher is watching for container maximum allocated
 # resources and once a specific threshold is exceeded, it will tell the

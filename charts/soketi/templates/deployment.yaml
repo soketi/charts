@@ -103,6 +103,8 @@ spec:
           env:
             - name: PORT
               value: "6001"
+            - name: MODE
+              value: {{ .Values.app.mode | default "full" }}
             {{- with .Values.app.extraEnv }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
