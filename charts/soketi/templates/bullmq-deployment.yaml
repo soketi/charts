@@ -1,0 +1,77 @@
+{{- if .Values.bullExporter.enabled -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "soketi.fullname" . }}-bullmq-exporter
+  labels:
+    {{- include "soketi.labels" . | nindent 4 }}
+    app: bullmq-exporter
+spec:
+  replicas: {{ .Values.bullExporter.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "soketi.selectorLabels" . | nindent 6 }}
+      app: bullmq-exporter
+  template:
+    metadata:
+      {{- with .Values.bullExporter.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "soketi.selectorLabels" . | nindent 8 }}
+        app: bullmq-exporter
+    spec:
+      {{- with .Values.bullExporter.extraVolumes }}
+      volumes:
+        {{- toYaml . | nindent 10 }}
+      {{- end }}
+
+      {{- with .Values.bullExporter.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+
+      serviceAccountName: {{ include "soketi.serviceAccountName" . }}-bullmq-exporter
+
+      securityContext:
+        {{- toYaml .Values.bullExporter.podSecurityContext | nindent 8 }}
+
+      containers:
+        - name: exporter
+          securityContext:
+            {{- toYaml .Values.bullExporter.securityContext | nindent 12 }}
+          image: "{{ .Values.bullExporter.image.repository }}:{{ .Values.bullExporter.image.tag }}"
+          imagePullPolicy: {{ .Values.bullExporter.image.pullPolicy }}
+          {{- with .Values.bullExporter.extraVolumeMounts }}
+          volumeMounts:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          ports:
+            - name: bullmq
+              containerPort: 9538
+              protocol: TCP
+          env:
+            - name: EXPORTER_REDIS_URL
+              value: {{ .Values.bullExporter.redisHost }}
+            - name: EXPORTER_QUEUES
+              value: {{ join "," .Values.bullExporter.queues }}
+            - name: EXPORTER_PREFIX
+              value: {{ .Values.bullExporter.prefix }}
+            - name: EXPORTER_STAT_PREFIX
+              value: {{ .Values.bullExporter.statPrefix }}
+          resources:
+            {{- toYaml .Values.bullExporter.resources | nindent 12 }}
+      {{- with .Values.bullExporter.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.bullExporter.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.bullExporter.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

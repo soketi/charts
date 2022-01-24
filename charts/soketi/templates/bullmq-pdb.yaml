@@ -1,0 +1,19 @@
+{{- if and (.Values.bullExporter.enabled) (gt (.Values.bullExporter.replicaCount | int) 1) -}}
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  labels:
+    {{- include "soketi.labels" . | nindent 4 }}
+  name: {{ include "soketi.fullname" . }}-bullmq-exporter
+spec:
+  selector:
+    matchLabels:
+      {{- include "soketi.selectorLabels" . | nindent 6 }}
+      app: bullmq-exporter
+  {{- if .Values.bullExporter.pdb.minAvailable }}
+  minAvailable: {{ .Values.bullExporter.pdb.minAvailable }}
+  {{- end }}
+  {{- if .Values.bullExporter.pdb.maxUnavailable }}
+  maxUnavailable: {{ .Values.bullExporter.pdb.maxUnavailable }}
+  {{- end }}
+{{- end }}

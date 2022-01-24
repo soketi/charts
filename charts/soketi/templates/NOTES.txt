@@ -26,3 +26,7 @@
 {{- else }}
 2. Network watcher is disabled.
 {{- end }}
+
+{{- if .Values.bullExporter.enabled }}
+3. BullMQ Exporter is enabled.
+{{- end }}
