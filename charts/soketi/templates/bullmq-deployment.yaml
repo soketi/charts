@@ -10,8 +10,7 @@ spec:
   replicas: {{ .Values.bullExporter.replicaCount }}
   selector:
     matchLabels:
-      {{- include "soketi.selectorLabels" . | nindent 6 }}
-      app: bullmq-exporter
+      {{- include "soketi.bullExporterSelectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.bullExporter.podAnnotations }}
@@ -19,8 +18,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "soketi.selectorLabels" . | nindent 8 }}
-        app: bullmq-exporter
+        {{- include "soketi.bullExporterSelectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.bullExporter.extraVolumes }}
       volumes:

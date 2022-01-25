@@ -8,8 +8,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-      {{- include "soketi.selectorLabels" . | nindent 6 }}
-      app: bullmq-exporter
+      {{- include "soketi.bullExporterSelectorLabels" . | nindent 6 }}
   {{- if .Values.bullExporter.pdb.minAvailable }}
   minAvailable: {{ .Values.bullExporter.pdb.minAvailable }}
   {{- end }}

@@ -48,7 +48,16 @@ Selector labels
 {{- define "soketi.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "soketi.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
+app: soketi
 {{- end }}
+
+{{- define "soketi.bullExporterSelectorLabels" -}}
+app.kubernetes.io/name: {{ include "soketi.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+app: bullmq-exporter
+{{- end }}
+
+app: bullmq-exporter
 
 {{/*
 Create the name of the service account to use
