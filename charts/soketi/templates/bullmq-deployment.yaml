@@ -8,6 +8,10 @@ metadata:
     app: bullmq-exporter
 spec:
   replicas: {{ .Values.bullExporter.replicaCount }}
+  {{- with .Values.bullExporter.strategy }}
+  strategy:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   selector:
     matchLabels:
       {{- include "soketi.bullExporterSelectorLabels" . | nindent 6 }}

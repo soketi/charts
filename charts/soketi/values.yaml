@@ -4,6 +4,12 @@
 
 replicaCount: 1
 
+strategy: {}
+  # type: RollingUpdate
+  # rollingUpdate:
+  #   maxSurge: 0
+  #   maxUnavailable: 1
+
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
@@ -114,6 +120,12 @@ bullExporter:
   enabled: false
 
   replicaCount: 1
+
+  strategy: {}
+  # type: RollingUpdate
+  # rollingUpdate:
+  #   maxSurge: 0
+  #   maxUnavailable: 1
 
   image:
     repository: uphabit/bull_exporter
