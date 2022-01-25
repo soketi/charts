@@ -53,7 +53,7 @@ spec:
             - name: EXPORTER_REDIS_URL
               value: {{ .Values.bullExporter.redisHost }}
             - name: EXPORTER_QUEUES
-              value: {{ join "," .Values.bullExporter.queues }}
+              value: {{ join " " .Values.bullExporter.queues }}
             - name: EXPORTER_PREFIX
               value: {{ .Values.bullExporter.prefix }}
             - name: EXPORTER_STAT_PREFIX
