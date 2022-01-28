@@ -13,7 +13,7 @@ spec:
     matchLabels:
       {{- include "soketi.selectorLabels" . | nindent 6 }}
   endpoints:
-    - port: "9601"
+    - port: metrics
       interval: {{ .Values.serviceMonitor.scrapeInterval }}
       scrapeTimeout: {{ .Values.serviceMonitor.scrapeTimeout }}
 {{- end }}
