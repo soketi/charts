@@ -13,7 +13,7 @@ spec:
     matchLabels:
       {{- include "soketi.bullExporterSelectorLabels" . | nindent 6 }}
   endpoints:
-    - port: bullmq
+    - port: bull-metrics
       interval: {{ .Values.bullExporter.serviceMonitor.scrapeInterval }}
       scrapeTimeout: {{ .Values.bullExporter.serviceMonitor.scrapeTimeout }}
 {{- end }}

@@ -15,7 +15,7 @@ spec:
     - port: 9538
       targetPort: 9538
       protocol: TCP
-      name: bullmq
+      name: bull-metrics
   selector:
     {{- include "soketi.bullExporterSelectorLabels" . | nindent 4 }}
 {{- end }}
