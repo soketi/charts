@@ -3,7 +3,7 @@ apiVersion: policy/v1beta1
 kind: PodDisruptionBudget
 metadata:
   labels:
-    {{- include "soketi.labels" . | nindent 4 }}
+    {{- include "soketi.bullExporterLabels" . | nindent 4 }}
   name: {{ include "soketi.fullname" . }}-bullmq-exporter
 spec:
   selector:

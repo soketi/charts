@@ -4,8 +4,7 @@ kind: Deployment
 metadata:
   name: {{ include "soketi.fullname" . }}-bullmq-exporter
   labels:
-    {{- include "soketi.labels" . | nindent 4 }}
-    app: bullmq-exporter
+    {{- include "soketi.bullExporterLabels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.bullExporter.replicaCount }}
   {{- with .Values.bullExporter.strategy }}

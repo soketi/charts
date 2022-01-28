@@ -1,21 +1,17 @@
-{{- if .Values.bullExporter.enabled -}}
+{{- if and .Values.bullExporter.enabled .Values.bullExporter.serviceMonitor.enabled }}
 apiVersion: v1
 kind: Service
 metadata:
   name: {{ include "soketi.fullname" . }}-bullmq-exporter
   labels:
     {{- include "soketi.bullExporterLabels" . | nindent 4 }}
-  annotations:
-    {{- with .Values.bullExporter.service.annotations }}
-    {{- toYaml . | nindent 4 }}
-    {{- end }}
 spec:
   type: ClusterIP
   ports:
     - port: 9538
       targetPort: 9538
       protocol: TCP
-      name: bullmq
+      name: bull-metrics
   selector:
     {{- include "soketi.bullExporterSelectorLabels" . | nindent 4 }}
 {{- end }}

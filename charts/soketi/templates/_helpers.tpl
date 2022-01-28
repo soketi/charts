@@ -40,6 +40,17 @@ helm.sh/chart: {{ include "soketi.chart" . }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
+app: soketi
+{{- end }}
+
+{{- define "soketi.bullExporterLabels" -}}
+helm.sh/chart: {{ include "soketi.chart" . }}
+{{ include "soketi.bullExporterSelectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+app: bull-exporter
 {{- end }}
 
 {{/*

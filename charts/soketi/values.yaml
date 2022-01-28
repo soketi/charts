@@ -178,9 +178,14 @@ bullExporter:
   statPrefix: bull_queue_
 
   service:
-    annotations:
-      prometheus.io/scrape: 'true'
-      prometheus.io/port: '9538'
+    annotations: {}
+    #  prometheus.io/scrape: 'true'
+    #  prometheus.io/port: '9538'
+
+  serviceMonitor:
+    enabled: false
+    scrapeInterval: 5s
+    scrapeTimeout: 3s
 
   serviceAccount:
     # Specifies whether a service account should be created
@@ -212,6 +217,11 @@ bullExporter:
   tolerations: []
 
   affinity: {}
+
+serviceMonitor:
+  enabled: false
+  scrapeInterval: 5s
+  scrapeTimeout: 3s
 
 serviceAccount:
   # Specifies whether a service account should be created
