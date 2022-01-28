@@ -20,3 +20,20 @@ spec:
     {{- if .Values.networkWatcher.enabled }}
     ws.soketi.app/accepts-new-connections: "yes"
     {{- end }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "soketi.fullname" . }}-headless
+  labels:
+    {{- include "soketi.labels" . | nindent 4 }}
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: 6001
+      protocol: TCP
+      name: soketi
+  selector:
+    {{- include "soketi.selectorLabels" . | nindent 4 }}

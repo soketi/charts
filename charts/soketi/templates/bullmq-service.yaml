@@ -18,4 +18,21 @@ spec:
       name: bull-metrics
   selector:
     {{- include "soketi.bullExporterSelectorLabels" . | nindent 4 }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "soketi.fullname" . }}-bullmq-exporter-headless
+  labels:
+    {{- include "soketi.bullExporterLabels" . | nindent 4 }}
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: 6001
+      protocol: TCP
+      name: soketi
+  selector:
+    {{- include "soketi.bullExporterSelectorLabels" . | nindent 4 }}
 {{- end }}
