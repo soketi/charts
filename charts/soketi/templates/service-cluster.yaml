@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "soketi.fullname" . }}-cluster
+  labels:
+    {{- include "soketi.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: 11002
+      targetPort: 11002
+      protocol: UDP
+      name: cluster
+  selector:
+    {{- include "soketi.selectorLabels" . | nindent 4 }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "soketi.fullname" . }}-cluster-headless
+  labels:
+    {{- include "soketi.labels" . | nindent 4 }}
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports:
+    - port: 11002
+      targetPort: 11002
+      protocol: UDP
+      name: cluster
+  selector:
+    {{- include "soketi.selectorLabels" . | nindent 4 }}
