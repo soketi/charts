@@ -300,6 +300,30 @@ pdb:
   minAvailable: 1
   # maxUnavailable: 25%
 
+livenessProbe:
+  httpGet:
+    path: /
+    port: 6001
+    httpHeaders:
+      - name: X-Kube-Healthcheck
+        value: "Yes"
+  initialDelaySeconds: 5
+  periodSeconds: 2
+  failureThreshold: 3
+  successThreshold: 1
+
+readinessProbe:
+  httpGet:
+    path: /accept-traffic
+    port: 6001
+    httpHeaders:
+      - name: X-Kube-Healthcheck
+        value: "Yes"
+  initialDelaySeconds: 5
+  periodSeconds: 1
+  failureThreshold: 1
+  successThreshold: 1
+
 # In some cases, closing a Pod that has a lot of connections
 # will disconnect them, and stats would need some time to catch up with the disconnections,
 # so a bigger termination grace period would be suitable.

@@ -115,28 +115,14 @@ spec:
             {{- with .Values.app.extraEnv }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
+          {{- with .Values.livenessProbe }}
           livenessProbe:
-            httpGet:
-              path: /
-              port: 6001
-              httpHeaders:
-                - name: X-Kube-Healthcheck
-                  value: "Yes"
-            initialDelaySeconds: 5
-            periodSeconds: 2
-            failureThreshold: 3
-            successThreshold: 1
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.readinessProbe }}
           readinessProbe:
-            httpGet:
-              path: /accept-traffic
-              port: 6001
-              httpHeaders:
-                - name: X-Kube-Healthcheck
-                  value: "Yes"
-            initialDelaySeconds: 5
-            periodSeconds: 1
-            failureThreshold: 1
-            successThreshold: 1
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           resources:
             {{- toYaml .Values.app.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
