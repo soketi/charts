@@ -311,6 +311,7 @@ livenessProbe:
   periodSeconds: 2
   failureThreshold: 3
   successThreshold: 1
+  terminationGracePeriodSeconds: 30
 
 readinessProbe:
   httpGet:
@@ -323,7 +324,6 @@ readinessProbe:
   periodSeconds: 1
   failureThreshold: 1
   successThreshold: 1
-  terminationGracePeriodSeconds: 30
 
 # In some cases, closing a Pod that has a lot of connections
 # will disconnect them, and stats would need some time to catch up with the disconnections,
