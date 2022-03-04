@@ -31,6 +31,11 @@ spec:
 
       terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
 
+      {{- if .Values.multicast.enabled }}
+      hostNetwork: {{ .Values.multicast.hostNetwork }}
+      dnsPolicy: {{ .Values.multicast.dnsPolicy }}
+      {{- end }}
+
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
