@@ -317,7 +317,6 @@ livenessProbe:
   periodSeconds: 2
   failureThreshold: 3
   successThreshold: 1
-  terminationGracePeriodSeconds: 30
 
 readinessProbe:
   httpGet:
