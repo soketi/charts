@@ -31,9 +31,9 @@ spec:
 
       terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
 
-      {{- if .Values.multicast.enabled }}
-      hostNetwork: {{ .Values.multicast.hostNetwork }}
-      dnsPolicy: {{ .Values.multicast.dnsPolicy }}
+      {{- if .Values.app.multicast.enabled }}
+      hostNetwork: {{ .Values.app.multicast.hostNetwork }}
+      dnsPolicy: {{ .Values.app.multicast.dnsPolicy }}
       {{- end }}
 
       {{- with .Values.imagePullSecrets }}
