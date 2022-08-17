@@ -19,10 +19,10 @@ app:
   image:
     repository: quay.io/soketi/soketi
     pullPolicy: IfNotPresent
-    tag: "0.31-16-alpine"
+    tag: "1.3.0-16-alpine"
     # You can use distroless to avoid Remote Code Execution attacks in-cluster.
     # https://github.com/soketi/soketi/pull/178
-    # tag: "0.31-16-distroless"
+    # tag: "1.3-16-distroless"
 
   # It's recommended to run the server with
   # maximum memory that would match the resource limits
