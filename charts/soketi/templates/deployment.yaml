@@ -113,9 +113,9 @@ spec:
             {{- toYaml . | nindent 12 }}
           {{- end }}
           env:
-            - name: PORT
+            - name: SOKETI_PORT
               value: "6001"
-            - name: MODE
+            - name: SOKETI_MODE
               value: {{ .Values.app.mode | default "full" }}
             {{- with .Values.app.extraEnv }}
             {{- toYaml . | nindent 12 }}
