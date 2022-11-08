@@ -1,0 +1,18 @@
+{{- if or .Values.metrics.enabled .Values.serviceMonitor.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "soketi.fullname" . }}-metrics
+  labels:
+    {{- include "soketi.labels" . | nindent 4 }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: {{ .Values.metrics.service.port }}
+      targetPort: {{ .Values.metrics.service.port }}
+      protocol: TCP
+      name: metrics
+  selector:
+    {{- include "soketi.selectorLabels" . | nindent 4 }}
+    ws.soketi.app/serves-metrics: "yes"
+{{- end }}

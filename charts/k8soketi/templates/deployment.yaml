@@ -1,0 +1,148 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "soketi.fullname" . }}
+  labels:
+    {{- include "soketi.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  {{- with .Values.strategy }}
+  strategy:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "soketi.selectorLabels" . | nindent 6 }}
+      {{- if or .Values.metrics.enabled .Values.serviceMonitor.enabled }}
+      k8s.soketi.app/serves-metrics: "yes"
+      {{- end }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "soketi.selectorLabels" . | nindent 8 }}
+        {{- if or .Values.metrics.enabled .Values.serviceMonitor.enabled }}
+        k8s.soketi.app/serves-metrics: "yes"
+        {{- end }}
+    spec:
+      {{- with .Values.extraVolumes }}
+      volumes:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+
+      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
+
+      {{- if .Values.app.multicast.enabled }}
+      hostNetwork: {{ .Values.app.multicast.hostNetwork }}
+      dnsPolicy: {{ .Values.app.multicast.dnsPolicy }}
+      {{- end }}
+
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+
+      serviceAccountName: {{ include "soketi.serviceAccountName" . }}
+
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+
+      {{- with .Values.extraInitContainers }}
+      initContainers:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+
+      containers:
+        {{- with .Values.extraContainers }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.app.image.repository }}:{{ .Values.app.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.app.image.pullPolicy }}
+          {{- with .Values.app.extraVolumeMounts }}
+          volumeMounts:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          ports:
+            - name: soketi
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+            - name: metrics
+              containerPort: {{ .Values.metrics.service.port }}
+              protocol: TCP
+            - name: peer
+              containerPort: {{ .Values.peerServer.service.port }}
+              protocol: TCP
+          command:
+            - node
+            - --optimize_for_size
+            - --optimize-for-size
+            - /app/bin/server.js
+            - start
+            {{- if or .Values.metrics.enabled .Values.serviceMonitor.enabled }}
+            - --metrics
+            {{- end }}
+            {{- with .Values.app.flags }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          env:
+            - name: PORT
+              value: "{{ .Values.service.port }}"
+            - name: METRICS_SERVER_PORT
+              value: "{{ .Values.metrics.service.port }}"
+            - name: KUBE_POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: KUBE_POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: KUBE_POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: KUBE_SERVICES
+              value: {{ include "soketi.fullname" . }}-peer
+            - name: PEER_WS_PORT
+              value: "{{ .Values.peerServer.service.port }}"
+            - name: NODE_OPTIONS
+              value: "--es-module-specifier-resolution=node"
+            - name: PEER_INACTIVITY_TIMEOUT
+              value: "10"
+            - name: WS_GRACE_PERIOD
+              value: "10"
+            - name: MODE
+              value: {{ .Values.app.mode | default "full" }}
+            {{- with .Values.app.extraEnv }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          {{- with .Values.livenessProbe }}
+          livenessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.readinessProbe }}
+          readinessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          resources:
+            {{- toYaml .Values.app.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
