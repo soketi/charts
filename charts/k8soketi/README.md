@@ -25,7 +25,7 @@ Install the k8soketi chart:
 ```bash
 $ helm upgrade k8soketi \
     --install \
-    --version=1.0.0 \
+    --version=1.0.1 \
     soketi/k8soketi
 ```
 
