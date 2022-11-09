@@ -73,7 +73,7 @@ spec:
             - name: KUBE_CONNECTION
               value: cluster
             - name: SERVER_PORT
-              value: "{{ .Values.service.port }}"
+              value: "9601"
             - name: MEMORY_PERCENT
               value: "{{ .Values.networkWatcher.threshold }}"
             - name: CHECKING_INTERVAL

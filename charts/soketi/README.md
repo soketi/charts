@@ -25,7 +25,7 @@ Install the soketi chart:
 ```bash
 $ helm upgrade soketi \
     --install \
-    --version=1.0.1 \
+    --version=1.0.2 \
     soketi/soketi
 ```
 
