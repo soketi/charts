@@ -1,0 +1,205 @@
+# Default values for k8soketi.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+strategy: {}
+  # type: RollingUpdate
+  # rollingUpdate:
+  #   maxSurge: 0
+  #   maxUnavailable: 1
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+# k8soketi is the server that will act like the Pusher server.
+app:
+  image:
+    repository: quay.io/soketi/k8soketi
+    pullPolicy: IfNotPresent
+    tag: "0.1-18-debian"
+    # You can use distroless to avoid Remote Code Execution attacks in-cluster.
+    # tag: "latest-18-distroless"
+
+  flags:
+    - --verbose
+    - --accept-traffic-threshold=70
+
+  # Add extra env to the k8soketi container.
+  extraEnv: []
+  # - name: NODE_NAME
+  #   valueFrom:
+  #     fieldRef:
+  #       fieldPath: spec.nodeName
+
+  # Extra volumes to mount on the container.
+  extraVolumeMounts: []
+  # - name: some-folder
+  #   mountPath: /some/path
+
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  resources:
+    limits:
+      cpu: 500m
+      memory: 256Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+  # The mode the app is running with. (full, worker, server)
+  # Read the documentation: https://docs.soketi.app/advanced-usage/horizontal-scaling/running-modes
+  mode: full
+
+  # Multicast will enable settings for pods to support multicast.
+  multicast:
+    enabled: false
+    hostNetwork: true
+    dnsPolicy: ClusterFirstWithHostNet
+
+# Peer server is the P2P server that pods will communicate between them.
+# Default is 6002, but you can set any port you want.
+peerServer:
+  service:
+    type: ClusterIP
+    port: 6002
+    annotations: {}
+
+metrics:
+  enabled: true
+
+  service:
+    type: ClusterIP
+    port: 9601
+    annotations: {}
+
+serviceMonitor:
+  enabled: false
+  scrapeInterval: 5s
+  scrapeTimeout: 3s
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 6001
+  annotations: {}
+
+ingress:
+  enabled: false
+  # class: "nginx"
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: k8soketi-example.local
+      paths:
+        - /
+    # - host: k8soketi.test
+    #   paths:
+    #     - /
+  tls: []
+  #  - secretName: k8soketi-example-tls
+  #    hosts:
+  #      - k8soketi-example.local
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 60
+  targetMemoryUtilizationPercentage: 80
+
+  # Set the behavior for the autoscaler.
+  # https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/#support-for-configurable-scaling-behavior
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 1800
+    scaleUp:
+      stabilizationWindowSeconds: 10
+
+  # Custom Metrics will be appended to the default CPU/Memory resources (if they're enabled).
+  customMetrics: []
+  # - type: Pods
+  #   pods:
+  #     metric:
+  #       name: nginx_process_utilization
+  #     target:
+  #       type: AverageValue
+  #       averageValue: "50"
+
+pdb:
+  enabled: false
+  minAvailable: 1
+  # maxUnavailable: 25%
+
+livenessProbe:
+  httpGet:
+    path: /
+    port: 6001
+    httpHeaders:
+      - name: X-Kube-Healthcheck
+        value: "Yes"
+  initialDelaySeconds: 5
+  periodSeconds: 2
+  failureThreshold: 1
+  successThreshold: 1
+  # terminationGracePeriodSeconds: 30
+
+readinessProbe:
+  httpGet:
+    path: /ready
+    port: 6001
+    httpHeaders:
+      - name: X-Kube-Healthcheck
+        value: "Yes"
+  initialDelaySeconds: 5
+  periodSeconds: 1
+  failureThreshold: 1
+  successThreshold: 1
+
+# In some cases, closing a Pod that has a lot of connections
+# will disconnect them, and stats would need some time to catch up with the disconnections,
+# so a bigger termination grace period would be suitable.
+terminationGracePeriodSeconds: 30
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+# Extra volumes to attach to the deployment.
+extraVolumes: []
+# - name: some-folder
+#   emptyDir: {}
+
+# Extra containers to run in the deployment.
+extraContainers: []
+
+# Extra init containers to run in the deployment.
+extraInitContainers: []
