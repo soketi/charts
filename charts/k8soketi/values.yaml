@@ -19,7 +19,7 @@ app:
   image:
     repository: quay.io/soketi/k8soketi
     pullPolicy: IfNotPresent
-    tag: "62e6f28d8f527e9461f48d80b27e945f4155e8b2-18-debian"
+    tag: "0.1-18-debian"
     # You can use distroless to avoid Remote Code Execution attacks in-cluster.
     # tag: "latest-18-distroless"
 
@@ -61,6 +61,8 @@ app:
     hostNetwork: true
     dnsPolicy: ClusterFirstWithHostNet
 
+# Peer server is the P2P server that pods will communicate between them.
+# Default is 6002, but you can set any port you want.
 peerServer:
   service:
     type: ClusterIP
