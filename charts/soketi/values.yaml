@@ -19,7 +19,7 @@ app:
   image:
     repository: quay.io/soketi/soketi
     pullPolicy: IfNotPresent
-    tag: "1.5-16-alpine"
+    tag: "1.5-16-debian"
     # You can use distroless to avoid Remote Code Execution attacks in-cluster.
     # https://github.com/soketi/soketi/pull/178
     # tag: "1.5-16-distroless"
