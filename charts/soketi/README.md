@@ -9,7 +9,7 @@ Containerize & Orchestrate your soketi application with this simple Helm chart.
 
 ## 🛑 Requirements
 
-- Kubernetes v1.19+
+- Kubernetes v1.23+
 
 ## 🚀 Installation
 
@@ -25,7 +25,7 @@ Install the soketi chart:
 ```bash
 $ helm upgrade soketi \
     --install \
-    --version=1.0.2 \
+    --version=2.0.0 \
     soketi/soketi
 ```
 
